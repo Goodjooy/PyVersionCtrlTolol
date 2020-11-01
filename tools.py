@@ -2,7 +2,7 @@
 # @Author: FrozenString
 # @Date:   2020-11-01 09:11:16
 # @Last Modified by:   FrozenString
-# @Last Modified time: 2020-11-01 10:40:01
+# @Last Modified time: 2020-11-01 10:41:09
 from typing import Pattern
 from file_scan import all_file
 from input_output import IOCtrl
@@ -69,12 +69,12 @@ class GitCtrl(object):
 
     def commit(self, info):
         cmd = f"{self.gitpath} commit -m {info}"
-        log=cmd_info(cmd, self.io)
-        self._appends(log)
+        cmd_info(cmd, self.io)
+        
     def show_commit_history(self):
         cmd=f"{self.gitpath} log"
-        cmd_info(cmd,self.io)
-
+        log=cmd_info(cmd,self.io)
+        self._appends(log)
     def Version_back(self, back_times):
         """
         git控制版本回退
