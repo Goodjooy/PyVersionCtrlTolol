@@ -2,16 +2,16 @@
 # @Author: FrozenString
 # @Date:   2020-11-01 09:26:12
 # @Last Modified by:   FrozenString
-# @Last Modified time: 2020-11-01 09:29:17
+# @Last Modified time: 2020-11-01 09:58:26
 
 
 class IOCtrl(object):
     
-    def info_out_put(info):
+    def info_out_put(self,*arg):
         """
         信息输出方法
         """
-        print(info)
+        print(*arg)
     
     def show_with_str_enter(self, info):
         """
