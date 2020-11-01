@@ -2,7 +2,7 @@
 # @Author: FrozenString
 # @Date:   2020-11-01 09:11:16
 # @Last Modified by:   FrozenString
-# @Last Modified time: 2020-11-01 10:41:09
+# @Last Modified time: 2020-11-01 10:53:42
 from typing import Pattern
 from file_scan import all_file
 from input_output import IOCtrl
@@ -14,7 +14,7 @@ import functools
 
 def cmd_info(cmd, io):
     infos = os.popen(cmd)
-    info=infos.buffer.read().decode("utf8")
+    info = infos.buffer.read().decode("utf8")
     io.info_out_put(info)
     # for info in infos.readlines():
     #    io.info_out_put(info)
@@ -46,16 +46,16 @@ class GitCtrl(object):
             cmd = f"{self.gitpath} init \"{path}\""
             cmd_info(cmd, self.io)
 
-        self.history_commit_id=[]
-    
-    def _appends(self,logs):
-        patten=re.compile(r'commit ([a-z0-9]+)\n',re.IGNORECASE)
-        t_logs=patten.findall(logs)
+        self.history_commit_id = []
+
+    def _appends(self, logs):
+        patten = re.compile(r'commit ([a-z0-9]+)\n', re.IGNORECASE)
+        t_logs = patten.findall(logs)
         for t in t_logs:
             if t in self.history_commit_id:
                 pass
             else:
-                self.history_commit_id.extend(t);
+                self.history_commit_id.extend(t)
 
     def add_files(self, filenames):
         target_files = functools.reduce(
@@ -70,13 +70,15 @@ class GitCtrl(object):
     def commit(self, info):
         cmd = f"{self.gitpath} commit -m {info}"
         cmd_info(cmd, self.io)
-        
+
     def show_commit_history(self):
-        cmd=f"{self.gitpath} log"
-        log=cmd_info(cmd,self.io)
+        cmd = f"{self.gitpath} log"
+        log = cmd_info(cmd, self.io)
         self._appends(log)
-    def Version_back(self, back_times):
+
+    def Version_back(self, version_id):
         """
         git控制版本回退
         """
-        
+        cmd = f'{self.gitpath} reset --hard {version_id}'
+        cmd_info(cmd, self.io)
