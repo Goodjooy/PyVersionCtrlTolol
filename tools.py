@@ -2,7 +2,7 @@
 # @Author: FrozenString
 # @Date:   2020-11-01 09:11:16
 # @Last Modified by:   FrozenString
-# @Last Modified time: 2020-11-01 10:53:42
+# @Last Modified time: 2020-11-01 17:43:06
 from typing import Pattern
 from file_scan import all_file
 from input_output import IOCtrl
@@ -16,6 +16,7 @@ def cmd_info(cmd, io):
     infos = os.popen(cmd)
     info = infos.buffer.read().decode("utf8")
     io.info_out_put(info)
+    io.info_out_put("\n")
     # for info in infos.readlines():
     #    io.info_out_put(info)
     return info
@@ -76,9 +77,56 @@ class GitCtrl(object):
         log = cmd_info(cmd, self.io)
         self._appends(log)
 
-    def Version_back(self, version_id):
+    def version_back(self, version_id="HEAD^"):
         """
         git控制版本回退
         """
         cmd = f'{self.gitpath} reset --hard {version_id}'
+        cmd_info(cmd, self.io)
+
+    def get_status(self):
+        cmd = f"{self.gitpath} status"
+        cmd_info(cmd, self.io)
+        # TODO 解析分支信息，生成信息
+
+    def get_diff(self, branch, filename):
+        cmd = f"{self.gitpath} diff {branch} -- {filename}"
+        cmd_info(cmd, self.io)
+
+    def Checkout_workspace(self, filename):
+        """
+        将工作区的改变撤回
+        """
+        cmd = f"{self.gitpath} checkout -- {filename}"
+        cmd_info(cmd, self.io)
+
+    def unstage_added(self, filename, commit_id="HEAD"):
+        """
+        撤销暂存区的暂存的内容
+        """
+        cmd = f"{self.gitpath} reset {commit_id} {filename}"
+        cmd_info(cmd, self.io)
+
+    def remove(self, filename):
+        cmd = f"{self.gitpath} rm {filename}"
+
+    def link_git(self, target_git, targrt_gitsite="Github.com", commit_name="origin"):
+        """
+        链接远程仓库
+        """
+        cmd = f"{self.gitpath} remote add {commit_name} git@{targrt_gitsite}:{target_git}"
+        cmd_info(cmd, self.io)
+
+    def push_git(self, branch="master", commit_name="origin", is_first=True):
+        t = ""
+        if is_first:
+            t = "-u"
+        cmd = f"{self.gitpath} push {t} {commit_name} {branch}"
+        cmd_info(cmd, self.io)
+
+    def clone_git_ssh(self, target_git, target_gitsite="Github.com"):
+        """
+        使用ssh克隆仓库
+        """
+        cmd = f"{self.gitpath} clone git@{target_gitsite}:{target_git}"
         cmd_info(cmd, self.io)
