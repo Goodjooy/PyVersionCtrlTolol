@@ -2,7 +2,7 @@
 # @Author: FrozenString
 # @Date:   2020-11-01 09:11:16
 # @Last Modified by:   FrozenString
-# @Last Modified time: 2020-11-01 09:55:57
+# @Last Modified time: 2020-11-01 10:02:47
 from input_output import IOCtrl
 import os
 import functools
@@ -10,8 +10,8 @@ import functools
 
 
 def cmd_info(cmd, io):
-    infos = os.popen(cmd).read()
-    io.info_out_put(infos)
+    infos = os.popen(cmd)
+    io.info_out_put(infos.buffer.read().decode("utf8"))
     #for info in infos.readlines():
     #    io.info_out_put(info)
 
