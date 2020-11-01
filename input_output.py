@@ -2,7 +2,7 @@
 # @Author: FrozenString
 # @Date:   2020-11-01 09:26:12
 # @Last Modified by:   FrozenString
-# @Last Modified time: 2020-11-01 09:58:26
+# @Last Modified time: 2020-11-01 10:03:22
 
 
 class IOCtrl(object):
@@ -11,7 +11,7 @@ class IOCtrl(object):
         """
         信息输出方法
         """
-        print(*arg)
+        print(*arg,end='')
     
     def show_with_str_enter(self, info):
         """

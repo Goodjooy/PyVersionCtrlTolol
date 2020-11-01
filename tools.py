@@ -2,9 +2,11 @@
 # @Author: FrozenString
 # @Date:   2020-11-01 09:11:16
 # @Last Modified by:   FrozenString
-# @Last Modified time: 2020-11-01 10:02:47
+# @Last Modified time: 2020-11-01 10:19:19
+from file_scan import all_file
 from input_output import IOCtrl
 import os
+import re
 import functools
 # git交互方法类
 
@@ -12,7 +14,7 @@ import functools
 def cmd_info(cmd, io):
     infos = os.popen(cmd)
     io.info_out_put(infos.buffer.read().decode("utf8"))
-    #for info in infos.readlines():
+    # for info in infos.readlines():
     #    io.info_out_put(info)
 
 
@@ -46,6 +48,10 @@ class GitCtrl(object):
             lambda x, y: f"{x} \"{os.path.abspath(y)}\"", filenames, "")
         cmd = f"\"{self.gitpath}\" add {target_files}"
         cmd_info(cmd, self.io)
+
+    def add_all_files(self, except_patten=r'^(?:\.git|\.vscode)$'):
+        target_files = all_file(self.path, except_patten)
+        self.add_files(target_files)
 
     def commit(self, info):
         cmd = f"\"{self.gitpath}\" commit -m {info}"
